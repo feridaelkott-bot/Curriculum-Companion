@@ -1,0 +1,71 @@
+To reliably get high-accuracy results across different model sizes, the prompting strategy must scale with parameter count:Small models (E2B / E4B) require strict structural guardrails, clear step-by-step constraints, and concise formatting to prevent context drift.Mid-sized models (12B) perform best with structured role definitions, clean section tags, and explicit output formatting.Large / MoE models (26B-A4B / 31B) excel when encouraged to use deep reasoning (<|think|> mode) to craft highly nuanced pedagogical plans.1. Prompt for Small / Edge Models (E2B ~2.3B & E4B ~4.5B)Strategy: Smaller parameters need a rigid, low-ambiguity contract. Keep formatting strict and use numbered constraints so the model doesn't miss key elements like field trips or rationale.MarkdownYou are an expert curriculum assistant. Read the provided Unit Markdown text below and extract 5 key learning objectives. Then, generate 5 classroom activities based ONLY on the text.
+
+### STRICT REQUIREMENTS:
+1. OUTPUT FORMAT: Raw Markdown only. Do NOT add intros or outros.
+2. COUNT: Exactly 5 activities.
+3. INCLUSION: At least 1 activity MUST be an out-of-classroom Field Trip, and at least 2 MUST be collaborative Group Activities.
+4. STRUCTURE FOR EACH ACTIVITY:
+   - **Activity Name:** [Short Name]
+   - **Type:** [Field Trip / Group Activity / Individual Activity]
+   - **Description:** [2-3 sentences explaining the procedure]
+   - **Pedagogical Rationale:** [2 sentences explaining EXACTLY how this solidifies specific unit concepts]
+
+### UNIT MARKDOWN TEXT:
+{{INSERT_DOCLING_MARKDOWN_HERE}}
+2. Prompt for Mid-Tier Models (12B Unified)Strategy: Provides explicit role framing and precise structural rules while balancing context awareness.MarkdownSystem: You are an instructional designer creating experiential learning activities to solidify curriculum expectations from converted course materials.
+
+Task: Analyze the provided Markdown document for this unit and design an activity guide for teachers.
+
+Instructions:
+1. Review the Unit Markdown text to identify core curriculum outcomes.
+2. Generate exactly 5 distinct student activities:
+   - Include 1 field trip or off-site experiential learning activity.
+   - Include 2-3 interactive group activities (hands-on, debate, or collaborative problem-solving).
+   - Include individual or project-based activities for remaining slots.
+3. Format each activity using the template below:
+
+### Activity [Number]: [Activity Title]
+- **Category:** [Field Trip / Hands-on Group / Interactive Discussion / Project]
+- **Target Curriculum Expectation:** [Specific concept from the unit text]
+- **Step-by-Step Overview:** [Clear execution instructions for the teacher]
+- **Why It Solidifies Understanding:** [Detailed rationale linking the activity directly to long-term memory retention and practical application of the unit concept]
+
+---
+Unit Content:
+{{INSERT_DOCLING_MARKDOWN_HERE}}
+3. Prompt for Large & MoE Models (26B-A4B & 31B Dense)Strategy: Leverages Gemma 4's built-in reasoning engine (<|think|>). It prompts the model to map activities directly to pedagogical frameworks (e.g., Bloom's Taxonomy) before outputting the final Markdown text.Markdown<|think|>
+Analyze the provided Unit Markdown file carefully:
+1. Deconstruct the primary learning expectations, core vocabulary, and abstract concepts in this unit.
+2. Brainstorm 5 impactful activities (1 immersive field trip, 2+ collaborative group activities, and high-engagement classroom tasks).
+3. Evaluate why each activity bridges theoretical concepts with practical understanding.
+<|think|>
+
+# Role & Purpose
+You are an expert Curriculum Specialist. Your goal is to convert raw unit notes into a structured, production-ready Markdown activity file for educators.
+
+# Directives
+For the provided Unit Markdown text, generate an **Activity Plan Document** containing **5 high-impact activities**.
+
+### Required Activity Mix:
+- **1 Field Trip / Community Application:** An out-of-class experience connecting unit topics to real-world environments.
+- **2-3 Group Collaboration Tasks:** Interactive, peer-driven activities (e.g., simulations, group case studies, stations).
+- **1-2 Applied Projects / Demonstrations:** Hands-on activities that test unit mastery.
+
+### Required Format for Each Activity:
+
+## [Activity Number]: [Catchy Activity Title]
+* **Activity Type:** `[Field Trip | Group Activity | Applied Project]`
+* **Estimated Duration:** `[Time required]`
+* **Curriculum Focus:** `[Specific concepts from unit text addressed]`
+
+### Description & Execution
+[Provide a comprehensive step-by-step walkthrough of how the teacher sets up, facilitates, and assesses this activity.]
+
+### Pedagogical Rationale
+[Provide a thorough explanation detailing WHY this specific exercise solidifies student understanding of the unit expectations, referencing cognitive engagement and retention.]
+
+---
+
+# Unit Markdown Source Material:
+{{INSERT_DOCLING_MARKDOWN_HERE}}
+Summary of Key Parameter DifferencesParameter TierRecommended Prompting StyleKey FocusE2B / E4B (~2B–4B)Strict, zero-shot structured template with few variablesPrevents hallucination and ensures all 5 items are generated12BDirect system instructions with precise markdown schemaBalances detailed descriptions with structural compliance26B-A4B / 31BExtended thinking (`<think
