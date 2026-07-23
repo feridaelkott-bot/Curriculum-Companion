@@ -1,9 +1,4 @@
 '''
-Local workspace for teachers to input their confidential students
-
-
-
-
 Research:
 
 - How can Flet access Gemma 4 local AI model.
@@ -47,13 +42,27 @@ Can we input any files into Gemma? How? How can I make it access only the specif
 
 '''
 
+'''
+Application Flow:
+1. Show a welcome screen.
+2. Let the teacher select one curriculum document.
+3. Convert the document to Markdown with Docling
+4. Send the extracted Markdown to a local FGemma model through Ollama
+5. Display the generated activities
+6. Save the generated activities as a Markdown file
+'''
+
+#------------------------------------------------------
+# IMPORTS
+#------------------------------------------------------
+
 import flet as ft
 
 from pathlib import Path
 from docling.document_converter import DocumentConverter
 
 #--> difference b.t 'chat' and 'asynchat'?
-from ollama import chat
+from ollama import ResponseError, chat
 
 #this function will be called, and will operate on a file that was chosen from flet UI
 def user_inputs_doc(selected_file: str):
