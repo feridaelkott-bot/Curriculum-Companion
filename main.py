@@ -73,23 +73,103 @@ def user_inputs_doc(selected_file: str):
     # your message to Gemma as one of its 'message' parameters
 
     response = chat(
-
+        # gemma4:e2b
         # --> Check the way 4b is named on your system!
-        model="gemma4:e4b-it-q8_0 ",
+        model="gemma4:12b",
         messages=[
             {
                 "role": "user",
-                "content": f"""Read the following extracted document, and give me steps on how to
-                                complete this assignment:
-
-
-                            DOCUMENT:
-                            {markdown_file}"""
+                "content": f"""
+                                    Below is the Markdown content extracted from a curriculum document:
+                                    
+                                    ---
+                                    {markdown_file}
+                                    ---
+                                    
+                                    ### STRICT AI INSTRUCTIONS:
+                                    You are an expert curriculum assistant. 
+                                    
+                                    DO NOT summarize assessment rules, grading levels, or administrative guidelines. Focus ONLY on the learning content.
+                                    
+                                    Identify EVERY distinct curriculum "Strand" in the text above (e.g., Strand B: Life Systems, Strand C: Matter & Energy, Strand D: Structures, Strand E: Earth & Space). 
+                                    
+                                    FOR EACH STRAND identified in the document, you must generate 5 distinct, highly engaging student activities to solidify learning expectations.
+                                    
+                                    ### MANDATORY REQUIREMENTS PER STRAND:
+                                    - Activity 1: MUST be a Local Field Trip / Community Excursion
+                                    - Activity 2: MUST be an Interactive Group Activity
+                                    - Activity 3: MUST be an Interactive Group Activity
+                                    - Activity 4: Hands-On / Experiential Activity
+                                    - Activity 5: Applied STEM / Design Challenge
+                                    
+                                    ---
+                                    
+                                    ### OUTPUT FORMAT (Repeat this full block for EVERY strand found):
+                                    
+                                    # Strand: [Insert Strand Name/Letter]
+                                    
+                                    ## Activity 1: [Field Trip Name]
+                                    - **Activity Type:** Field Trip / Excursion
+                                    - **Target Strand Expectation:** [Specific concept from this strand]
+                                    - **Description:** [3 sentences explaining what students will do]
+                                    - **Why It Solidifies Understanding:** [2 sentences explaining why this cements the strand concept]
+                                    
+                                    ## Activity 2: [Group Activity Name]
+                                    - **Activity Type:** Group Activity
+                                    - **Target Strand Expectation:** [Specific concept from this strand]
+                                    - **Description:** [3 sentences explaining what student groups will do]
+                                    - **Why It Solidifies Understanding:** [2 sentences explaining why this cements the strand concept]
+                                    
+                                    ## Activity 3: [Group Activity Name]
+                                    - **Activity Type:** Group Activity
+                                    - **Target Strand Expectation:** [Specific concept from this strand]
+                                    - **Description:** [3 sentences explaining what student groups will do]
+                                    - **Why It Solidifies Understanding:** [2 sentences explaining why this cements the strand concept]
+                                    
+                                    ## Activity 4: [Activity Name]
+                                    - **Activity Type:** Hands-On Experiential
+                                    - **Target Strand Expectation:** [Specific concept from this strand]
+                                    - **Description:** [3 sentences explaining the procedure]
+                                    - **Why It Solidifies Understanding:** [2 sentences explaining why this cements the strand concept]
+                                    
+                                    ## Activity 5: [Activity Name]
+                                    - **Activity Type:** STEM / Design Challenge
+                                    - **Target Strand Expectation:** [Specific concept from this strand]
+                                    - **Description:** [3 sentences explaining the procedure]
+                                    - **Why It Solidifies Understanding:** [2 sentences explaining why this cements the strand concept]
+                                    
+                                    ---
+                                    
+                                    Begin immediately with your first strand. Do not write any introduction.
+                                """
             }
         ]
     )
 
     print(response.message.content)
+
+
+'''We have 7 units, EACH IS ITS OWN pdf FILE.
+
+We will use Docling to convert each of these PDF files to a Markdown file, that will be given to Gemma as text for it to generate responses from. 
+
+
+For each unit, I want Gemma to generate a FILE for activities that the teacher can plan for their students.
+
+
+
+--> For EACH of the seven units, generate a file/response of 5 different activities, including field trips, and other fun group activities that a teacher can rely on to solidify curriculum expectations in their class. 
+--> For each activity generated, include a reason why it would be a good way to solidify understanding of that unit. 
+--> Gemma produces a complete text response for each prompt it is given. 
+--> This means that the response I am given FOR EACH of the seven units files, I generate a corresponding activities markdown file for it
+
+Then these files will be saved in the teacher's OS, in /home/activities_folder/[all docs], 
+
+
+FOR TOMORROW: 
+Try to make these files visible on the UI. If not, the UI should output a message regarding where the files exist on the user's computer. 
+
+'''
 
 
 
